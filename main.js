@@ -6,6 +6,18 @@ if ('serviceWorker' in navigator) {
     });
 }
 
+function showToast(msg, color = "#222") {
+    const toast = document.getElementById('toast-msg');
+    toast.textContent = msg;
+    toast.style.background = color;
+    toast.style.display = 'block';
+    toast.style.opacity = '1';
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => { toast.style.display = 'none'; }, 300);
+    }, 1800);
+}
+
 const db = new PouchDB('tareas');
 
 const inputName = document.getElementById('nombre');
@@ -26,10 +38,12 @@ btnAdd.addEventListener('click', () => {
     db.put(tarea)
     .then((result) => {
         console.log('Exito', result);
+        showToast('¡Tarea agregada!', '#28a745');
         inputName.value = '';
         inputFecha.value = '';
     })
     .catch((err) => {
+        showToast('Error al agregar tarea', '#dc3545');
         console.error(err);
     })
 })
