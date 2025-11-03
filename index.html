@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PouchDB</title>
+    <link rel="stylesheet" href="./index.css">
+    <link rel="manifest" href="./manifest.json">
+</head>
+<body>
+    <h1>Gestión de Tareas</h1>
+    <fieldset>
+        <legend>Nueva tarea</legend>
+        <p>
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre"/>
+        </p>
+        <p>
+            <label for="fecha">Fecha:</label>
+            <input type="date" id="fecha"/>
+        </p>
+        <p><button type="button" id="btnAdd">Agregar Tarea</button></p>
+    </fieldset>
+
+    <button type="button" id="btnList" style="display: block; margin: 0 auto;">Listar Tareas</button>
+    <ul id="taskList"></ul>
+
+    <div id="connection-status" style="position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999; text-align: center; font-weight: bold; font-size: 0.8rem; padding: 8px 0; display: none; transition: background 0.3s;"></div>
+
+    <script>
+    function setConnectionOutline(isOnline) {
+        document.body.classList.remove('online', 'offline');
+        if (isOnline) {
+            document.body.classList.add('online');
+            const bar = document.getElementById('connection-status');
+            bar.style.background = '#28a745';
+            bar.style.color = '#fff';
+            bar.textContent = 'Online';
+            bar.style.display = 'block';
+            setTimeout(() => { bar.style.display = 'none'; }, 2000);
+        } else {
+            document.body.classList.add('offline');
+            const bar = document.getElementById('connection-status');
+            bar.style.background = '#dc3545';
+            bar.style.color = '#fff';
+            bar.textContent = 'Offline';
+            bar.style.display = 'block';
+        }
+    }
+    setConnectionOutline(navigator.onLine);
+    window.addEventListener('online', () => setConnectionOutline(true));
+    window.addEventListener('offline', () => setConnectionOutline(false));
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/pouchdb@9.0.0/dist/pouchdb.min.js"></script>
+    <script src="./main.js"></script>
+</body>
+</html>
